@@ -1,35 +1,43 @@
+// Perfectly working solution but won't run on Leetcode, because Time Limit Exceeded
+//        int low = 100;
+//        int high = 300;
+//
+//        List<Integer> list = new ArrayList<>();
+//        String set = "123456789";
+//        for(int i=low; i<=high; i++) {
+//            String check = String.valueOf(i);
+//            if(set.contains(check)) {
+//                list.add(i);
+//            }
+//        }
+//        System.out.println(list);
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class SequentialDigits_1291 {
     public static void main(String[] args) {
         int low = 100;
         int high = 300;
-        for(int i=low; i<=high; i++) {
-            String numberStr = String.valueOf(i);
-            int[] digits = new int[numberStr.length()];
-            for (int j = 0; j < numberStr.length(); j++) {
-                digits[j] = Character.getNumericValue(numberStr.charAt(j));
-            }
-            boolean flag = false;
-            int cur = digits[0];
-            for(int k=1; k<digits.length; k++) {
-                if(cur + 1 == digits[k]) {
-                    flag = true;
-                }
-                else {
-                    flag = false;
-                    break;
-                }
-                cur = digits[k];
-            }
 
-//            System.out.println(Arrays.toString(digits));
-//            System.out.println("final: " + flag);a
-            if(flag) {
-                int result = 0;
-                for (int digit : digits) {
-                    result = result * 10 + digit;
+        //Sliding Window Approach
+        List<Integer> list = new ArrayList<>();
+        String str = "123456789";
+        int startIndex = (int) Math.log10(low) + 1;
+        int endIndex = (int) Math.log10(high) + 1;
+
+        for(int i=startIndex; i<=endIndex; i++) {
+            for(int j=0; j<=9-i; j++) {
+                String sub = str.substring(j, j+i);
+                int subNum = Integer.parseInt(sub);
+
+                if(subNum>=low && subNum<=high) {
+                    list.add(subNum);
                 }
-                System.out.println(result);
             }
         }
+
+        System.out.println(list);
+
     }
 }
